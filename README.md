@@ -8,9 +8,8 @@ mindexer is a file indexer/sorter utility for automatic by-type file sorting/ind
 current version: 0.0.2 ALPHA (pre-release)
 
 for future releases:
-    -configure Makefile
-    -fix issues (marked in main.rs)
-    -check licensing
+    -add support for other wildcards
+    -add reverse index feature
 
 changelog:
 
@@ -23,3 +22,11 @@ changelog:
     -ditched commands and used rust fs/env libraries instead
     -commented code more
     -made code lighter
+
+0.1.0 BETA:
+    -fixed wildcard issue
+    -deleted useless code parts
+    -made code stable
+    -fixed renaming issues
+    -added sortfolder cleaning feature
+    -configured makefile

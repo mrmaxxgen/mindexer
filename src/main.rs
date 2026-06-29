@@ -3,7 +3,6 @@
 
 use std::io;
 use std::fs;
-use std::env;
 use glob::glob;
 use std::path::Path;
 
@@ -13,48 +12,73 @@ fn main() {
     // specific folder by it's type, like "song.mp3" from "sortfolder" directory to "songs" directory.
     // if mindexer doesn't detects the base, it will create it, or, if it's not running inside the base, it will simply
     // outputs an error message and quit. throughout the base making and file sorting, each file and base modification will
-    // be logged and reported on the terminal like "[ok] sorting file <FILE> into folder <FOLDER>". that's all! :3
+    // be logged and reported on the terminal like "[i] sorting file <FILE> into folder <FOLDER>". that's all! :3
     // for compilation and usage instructions, see README.MD or mindexer github page <https://github.com/mrmaxxgen/mindexer.git>
 
     // steps: 
-    //        - check if mindexerbase exists.
-    //        - cd into mindexerbase.
-    //        ! move videos from "sortfolder" dir to "videos" dir.
-    //        ! move songs from "sortfolder" dir to "songs" dir.
+    //        - check if mindexerbase exists, if not, ask user to create it.
+    //        - copy videos from "sortfolder" dir to "videos" dir.
+    //        - copy songs from "sortfolder" dir to "songs" dir.
+    //        - delete all files in "sortfolder" dir.
 
     // structure: 
     //            - core function (files indexing)
     //            - base creator
 
     // issues: 
-    //         TODO: allow wildcards with glob
-    //         TODO: solve loop-printing in base creator section
+    //            - no issues for now
 
     if Path::new("mindexerbase").is_dir() { // check if mindexerbase directory exists
-        match env::set_current_dir("mindexerbase") { // cd into mindexerbase directory
-            Ok(()) => {
-                match fs::copy("sortfolder/*.mp4", "videos/*.mp4") { // ! moves videos to videos directory
-                    Ok(_) => {
-                        println!("[i] videos moved succesfully.") // prints info if it moved videos succesfully
+        for entry in glob("mindexerbase/sortfolder/*.mp4").expect("failed to find glob path") { // searches for mp4 files
+            match entry {
+                Ok(path) => {
+                    let path_shortened = path.file_name().unwrap().to_string_lossy(); // shortens path to rename files into unique name
+                    println!("[i] indexing video: {}", path_shortened); // prints shortened path to let user see what's getting indexed
+                    match fs::copy(&path, format!("mindexerbase/videos/{}", path_shortened)) { // copies videos in sortfolder to videos
+                        Ok(_) => {
+                            println!("[i] video indexed succesfully") // prints info if video got indexed succesfully
+                        }
+                        Err(e) => {
+                            println!("[!] unable to index video: {}", e) // prints error if video didn't got indexed
+                        }
                     }
-                    Err(e) => {
-                        println!("[!] unable to move videos, {}", e) // prints error if it didn't moved videos
+                    match fs::remove_file(path) { // clean sortfolder
+                        Ok(_) => {
+                            println!("[i] sortfolder cleaned succesfully") // prints info if sortfolder got cleaned succesfully
+                        }
+                        Err(e) => {
+                            println!("[!] unable to clean sortfolder: {}", e) // prints error if sortfolder didn't got cleaned
+                        }
                     }
                 }
-                match fs::copy("sortfolder/*.mp3", "songs/*.mp3") { // ! moves songs to songs directory
-                    Ok(_) => {
-                        println!("[i] songs moved succesfully.") // prints info if it moved songs succesfully
-                    }
-                    Err(e) => {
-                        println!("[!] unable to move songs, {}", e) // prints error if it didn't moved songs
-                    }
-                }
-            }  
-            Err(e) => {
-                println!("[!] unable to cd into mindexerbase, {}", e) // prints error if it didn't cd into mindexerbase
+                Err(_) => {}
             }
         }
-
+        for entry in glob("mindexerbase/sortfolder/*.mp3").expect("failed to find glob path") { // searches for mp3 files
+            match entry {
+                Ok(path) => {
+                    let path_shortened = path.file_name().unwrap().to_string_lossy(); // shortens path to rename files into unique name
+                    println!("[i] indexing song: {}", path_shortened); // prints shortened path to let user see what's getting indexed
+                    match fs::copy(&path, format!("mindexerbase/songs/{}", path_shortened)) { // copies songs in sortfolder to songs
+                        Ok(_) => {
+                            println!("[i] song indexed succesfully") // prints info if song got indexed succesfully
+                        }
+                        Err(e) => {
+                            println!("[!] unable to index song: {}", e) // prints error if song didn't got indexed
+                        }
+                    }
+                    match fs::remove_file(path) { // clean sortfolder
+                        Ok(_) => {
+                            println!("[i] sortfolder cleaned succesfully") // prints info if sortfolder got cleaned succesfully
+                        }
+                        Err(e) => {
+                            println!("[!] unable to clean sortfolder: {}", e) // prints error if sortfolder didn't got cleaned
+                        }
+                    }
+                }
+                Err(_) => {}
+            }
+        }
     } else {
         println!("[?] mindexerbase not found, create it? (y/n):"); // asks user if he wants to create mindexerbase
         let mut base_maker_ask = String::new();
@@ -64,10 +88,10 @@ fn main() {
             for dir in basedirs {
                 match fs::create_dir_all(dir) { // creates mindexerbase if user agreed
                     Ok(_) => {
-                        println!("[i] mindexerbase created succesfully, rerun.") // prints info if it created mindexerbase succesfully
+                        println!("[i] directories created succesfully") // prints info if it created mindexerbase succesfully
                     }
                     Err(e) => {
-                        println!("[!] unable to create mindexerbase, {}", e) // prints error if it didn't created mindexerbase
+                        println!("[!] unable to create mindexerbase: {}", e) // prints error if it didn't created mindexerbase
                     }
                 }
             }
