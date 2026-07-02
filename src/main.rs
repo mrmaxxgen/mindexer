@@ -1,5 +1,5 @@
 // mindexer (c) mrmaxxgen 2026
-// licensed under GNU GPLv3 or later <https://www.gnu.org/licenses/>
+// licensed under the MIT license <https://mit-license.org>
 
 use std::io;
 use std::fs;
