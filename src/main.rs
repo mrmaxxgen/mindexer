@@ -15,64 +15,233 @@ fn main() {
     // be logged and reported on the terminal like "[i] sorting file <FILE> into folder <FOLDER>". that's all! :3
     // for compilation and usage instructions, see README.MD or mindexer github page <https://github.com/mrmaxxgen/mindexer.git>
 
-    // steps: 
-    //        - check if mindexerbase exists, if not, ask user to create it.
-    //        - copy videos from "sortfolder" dir to "videos" dir.
-    //        - copy songs from "sortfolder" dir to "songs" dir.
-    //        - delete all files in "sortfolder" dir.
-
     // structure: 
     //            - core function (files indexing)
     //            - base creator
 
     // issues: 
-    //            - no issues for now
+    //            TODO: code repeats too often, maybe invent a sorting algorithm to prevent that
 
-    if Path::new("mindexerbase").is_dir() { // check if mindexerbase directory exists
-        for entry in glob("mindexerbase/sortfolder/*.mp4").expect("failed to find glob path") { // searches for mp4 files
+    if Path::new("mindexerbase").is_dir() { 
+        for entry in glob("mindexerbase/sortfolder/*.mp4").expect("failed to find glob path") { 
             match entry {
                 Ok(path) => {
-                    let path_shortened = path.file_name().unwrap().to_string_lossy(); // shortens path to rename files into unique name
-                    println!("[i] indexing video: {}", path_shortened); // prints shortened path to let user see what's getting indexed
-                    match fs::copy(&path, format!("mindexerbase/videos/{}", path_shortened)) { // copies videos in sortfolder to videos
+                    let path_shortened = path.file_name().unwrap().to_string_lossy(); 
+                    println!("[i] indexing video: {}", path_shortened); 
+                    match fs::copy(&path, format!("mindexerbase/videos/{}", path_shortened)) { 
                         Ok(_) => {
-                            println!("[i] video indexed succesfully") // prints info if video got indexed succesfully
+                            println!("[i] video indexed succesfully") 
                         }
                         Err(e) => {
-                            println!("[!] unable to index video: {}", e) // prints error if video didn't got indexed
+                            println!("[!] unable to index video: {}", e) 
                         }
                     }
-                    match fs::remove_file(path) { // clean sortfolder
+                    match fs::remove_file(path) { 
                         Ok(_) => {
-                            println!("[i] sortfolder cleaned succesfully") // prints info if sortfolder got cleaned succesfully
+                            println!("[i] sortfolder cleaned succesfully") 
                         }
                         Err(e) => {
-                            println!("[!] unable to clean sortfolder: {}", e) // prints error if sortfolder didn't got cleaned
+                            println!("[!] unable to clean sortfolder: {}", e) 
                         }
                     }
                 }
                 Err(_) => {}
             }
         }
-        for entry in glob("mindexerbase/sortfolder/*.mp3").expect("failed to find glob path") { // searches for mp3 files
+        for entry in glob("mindexerbase/sortfolder/*.mov").expect("failed to find glob pattern") {
             match entry {
                 Ok(path) => {
-                    let path_shortened = path.file_name().unwrap().to_string_lossy(); // shortens path to rename files into unique name
-                    println!("[i] indexing song: {}", path_shortened); // prints shortened path to let user see what's getting indexed
-                    match fs::copy(&path, format!("mindexerbase/songs/{}", path_shortened)) { // copies songs in sortfolder to songs
+                    let path_shortened = path.file_name().unwrap().to_string_lossy();
+                    println!("[i] indexing video: {}", path_shortened);
+                    match fs::copy(&path, format!("mindexerbase/videos/{}", path_shortened)) {
                         Ok(_) => {
-                            println!("[i] song indexed succesfully") // prints info if song got indexed succesfully
+                            println!("[i] video indexed succesfully")
                         }
                         Err(e) => {
-                            println!("[!] unable to index song: {}", e) // prints error if song didn't got indexed
+                            println!("[!] unable to index video: {}", e)
                         }
                     }
-                    match fs::remove_file(path) { // clean sortfolder
+                    match fs::remove_file(path) {
                         Ok(_) => {
-                            println!("[i] sortfolder cleaned succesfully") // prints info if sortfolder got cleaned succesfully
+                            println!("[i] sortfolder cleaned succesfully")
                         }
                         Err(e) => {
-                            println!("[!] unable to clean sortfolder: {}", e) // prints error if sortfolder didn't got cleaned
+                            println!("[!] unable to clean sortfolder: {}", e)
+                        }
+                    }
+                }
+                Err(_) => {}
+            }
+        }
+        for entry in glob("mindexerbase/sortfolder/*.mp3").expect("failed to find glob path") { 
+            match entry {
+                Ok(path) => {
+                    let path_shortened = path.file_name().unwrap().to_string_lossy(); 
+                    println!("[i] indexing song: {}", path_shortened); 
+                    match fs::copy(&path, format!("mindexerbase/songs/{}", path_shortened)) { 
+                        Ok(_) => {
+                            println!("[i] song indexed succesfully") 
+                        }
+                        Err(e) => {
+                            println!("[!] unable to index song: {}", e) 
+                        }
+                    }
+                    match fs::remove_file(path) { 
+                        Ok(_) => {
+                            println!("[i] sortfolder cleaned succesfully") 
+                        }
+                        Err(e) => {
+                            println!("[!] unable to clean sortfolder: {}", e) 
+                        }
+                    }
+                }
+                Err(_) => {}
+            }
+        }
+        for entry in glob("mindexerbase/sortfolder/*.png").expect("failed to find glob pattern") {
+            match entry {
+                Ok(path) => {
+                    let path_shortened = path.file_name().unwrap().to_string_lossy();
+                    println!("[i] indexing image: {}", path_shortened);
+                    match fs::copy(&path, format!("mindexerbase/images/{}", path_shortened)) {
+                        Ok(_) => {
+                            println!("[i] image indexed succesfully")
+                        }
+                        Err(e) => {
+                            println!("[!] unable to index image: {}", e)
+                        }
+                    }
+                    match fs::remove_file(path) {
+                        Ok(_) => {
+                            println!("[i] sortfolder cleaned succesfully")
+                        }
+                        Err(e) => {
+                            println!("[!] unable to clean sortfolder: {}", e)
+                        }
+                    }
+                }
+                Err(_) => {}
+            }
+        }
+        for entry in glob("mindexerbase/sortfolder/*.jpg").expect("failed to find glob pattern") {
+            match entry {
+                Ok(path) => {
+                    let path_shortened = path.file_name().unwrap().to_string_lossy();
+                    println!("[i] indexing image: {}", path_shortened);
+                    match fs::copy(&path, format!("mindexerbase/images/{}", path_shortened)) {
+                        Ok(_) => {
+                            println!("[i] image indexed succesfully")
+                        }
+                        Err(e) => {
+                            println!("[!] unable to index image: {}", e)
+                        }
+                    }
+                    match fs::remove_file(path) {
+                        Ok(_) => {
+                            println!("[i] sortfolder cleaned succesfully")
+                        }
+                        Err(e) => {
+                            println!("[!] unable to clean sortfolder: {}", e)
+                        }
+                    }
+                }
+                Err(_) => {}
+            }
+        }
+        for entry in glob("mindexerbase/sortfolder/*.jpeg").expect("failed to find glob pattern") {
+            match entry {
+                Ok(path) => {
+                    let path_shortened = path.file_name().unwrap().to_string_lossy();
+                    println!("[i] indexing image: {}", path_shortened);
+                    match fs::copy(&path, format!("mindexerbase/images/{}", path_shortened)) {
+                        Ok(_) => {
+                            println!("[i] image indexed succesfully")
+                        }
+                        Err(e) => {
+                            println!("[!] unable to index image: {}", e)
+                        }
+                    }
+                    match fs::remove_file(path) {
+                        Ok(_) => {
+                            println!("[i] sortfolder cleaned succesfully")
+                        }
+                        Err(e) => {
+                            println!("[!] unable to clean sortfolder: {}", e)
+                        }
+                    }
+                }
+                Err(_) => {}
+            }
+        }
+        for entry in glob("mindexerbase/sortfolder/*.img").expect("failed to find glob pattern") {
+            match entry {
+                Ok(path) => {
+                    let path_shortened = path.file_name().unwrap().to_string_lossy();
+                    println!("[i] indexing image: {}", path_shortened);
+                    match fs::copy(&path, format!("mindexerbase/images/{}", path_shortened)) {
+                        Ok(_) => {
+                            println!("[i] image indexed succesfully")
+                        }
+                        Err(e) => {
+                            println!("[!] unable to index image: {}", e)
+                        }
+                    }
+                    match fs::remove_file(path) {
+                        Ok(_) => {
+                            println!("[i] sortfolder cleaned succesfully")
+                        }
+                        Err(e) => {
+                            println!("[!] unable to clean sortfolder: {}", e)
+                        }
+                    }
+                }
+                Err(_) => {}
+            }
+        }
+        for entry in glob("mindexerbase/sortfolder/*.iso").expect("failed to find glob pattern") {
+            match entry {
+                Ok(path) => {
+                    let path_shortened = path.file_name().unwrap().to_string_lossy();
+                    println!("[i] indexing ISO: {}", path_shortened);
+                    match fs::copy(&path, format!("mindexerbase/ISOs/{}", path_shortened)) {
+                        Ok(_) => {
+                            println!("[i] ISO indexed succesfully")
+                        }
+                        Err(e) => {
+                            println!("[!] unable to index ISO: {}", e)
+                        }
+                    }
+                    match fs::remove_file(path) {
+                        Ok(_) => {
+                            println!("[i] sortfolder cleaned succesfully")
+                        }
+                        Err(e) => {
+                            println!("[!] unable to clean sortfolder: {}", e)
+                        }
+                    }
+                }
+                Err(_) => {}
+            }
+        }
+        for entry in glob("mindexerbase/sortfolder/*.zip").expect("failed to find glob pattern") {
+            match entry {
+                Ok(path) => {
+                    let path_shortened = path.file_name().unwrap().to_string_lossy();
+                    println!("[i] indexing image: {}", path_shortened);
+                    match fs::copy(&path, format!("mindexerbase/zips/{}", path_shortened)) {
+                        Ok(_) => {
+                            println!("[i] zip indexed succesfully")
+                        }
+                        Err(e) => {
+                            println!("[!] unable to index zip: {}", e)
+                        }
+                    }
+                    match fs::remove_file(path) {
+                        Ok(_) => {
+                            println!("[i] sortfolder cleaned succesfully")
+                        }
+                        Err(e) => {
+                            println!("[!] unable to clean sortfolder: {}", e)
                         }
                     }
                 }
@@ -80,23 +249,23 @@ fn main() {
             }
         }
     } else {
-        println!("[?] mindexerbase not found, create it? (y/n):"); // asks user if he wants to create mindexerbase
+        println!("[?] mindexerbase not found, create it? (y/n):");
         let mut base_maker_ask = String::new();
         io::stdin().read_line(&mut base_maker_ask).expect("failed to read line");
         if base_maker_ask.trim() == "y" {
-            let basedirs = ["mindexerbase/sortfolder", "mindexerbase/videos", "mindexerbase/songs"];
+            let basedirs = ["mindexerbase/sortfolder", "mindexerbase/videos", "mindexerbase/songs", "mindexerbase/images", "mindexerbase/ISOs", "mindexerbase/zips"];
             for dir in basedirs {
-                match fs::create_dir_all(dir) { // creates mindexerbase if user agreed
+                match fs::create_dir_all(dir) { 
                     Ok(_) => {
-                        println!("[i] directories created succesfully") // prints info if it created mindexerbase succesfully
+                        println!("[i] directories created succesfully")
                     }
                     Err(e) => {
-                        println!("[!] unable to create mindexerbase: {}", e) // prints error if it didn't created mindexerbase
+                        println!("[!] unable to create mindexerbase: {}", e)
                     }
                 }
             }
         } else {
-            println!("[i] aborting") // do nothing if user declined
+            println!("[i] aborting")
         }
     }
 }
