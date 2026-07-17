@@ -5,7 +5,9 @@ mrmaxxgen (c) 2026, licensed under the MIT license <https://mit-license.org>
 
 mindexer is a file indexer/sorter utility for automatic by-type file sorting/indexing in specific folder, it can be used for servers html's pages or just for tidying up your system with zero effort, mindexer handles (almost) everything by itself thru fs/env calls and error handling, it will also help you creating a base to start using it.
 
-current version: 0.1.1 BETA
+current version: 0.2.0 BETA - PRE-RELEASE
+
+current stable version: 0.1.1 BETA
 
 for future releases:
     -add support for other wildcards
@@ -35,3 +37,9 @@ changelog:
     -added support for more wildcards
     -deleted commets, boring, just read println messages
     -switched to MIT license
+
+0.2.0 BETA - PRE-RELEASE:
+    -significantly trimmed down basechecker algorithm and made it autonomous
+    -now supports direct variable modification on top of the "main" thread (unstable)
+    -started developing indexer algorithm
+    -mindexer is now completely independent
