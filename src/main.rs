@@ -8,8 +8,10 @@ use std::path::Path;
 
 fn main() {    
 
+    // CONFIGS (BCL)
     let basedirs_checker_list = ["mindexerbase", "mindexerbase/sortfolder", "mindexerbase/songs", "mindexerbase/videos"];
 
+    // BASECHECKER ALGORITHM 0.2.0 (STABLE, OPTIMIZED)
     for basedir in basedirs_checker_list {
         if Path::new(basedir).is_dir() {
         } else {
@@ -24,5 +26,5 @@ fn main() {
         }
     }
     
-    
+    // INDEXER ALGORITHM 0.2.0 (UNFINISHED)
 }
