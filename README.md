@@ -3,15 +3,27 @@ a simple file indexer written in Rust
 
 mrmaxxgen (c) 2026, licensed under the MIT license <https://mit-license.org>
 
-mindexer is a file indexer/sorter utility for automatic by-type file sorting/indexing in specific folder, it can be used for servers html's pages or just for tidying up your system with zero effort, mindexer handles (almost) everything by itself thru fs/env calls and error handling, it will also help you creating a base to start using it.
+how to use:
+    -install: run "sudo make install"
+    -uninstall: "sudo make uninstall"
+    -remove config: "sudo make removeconfig"
+    -remove logs: "sudo make removelogs"
+    -config syntax: "status": enables status like "[indexer info] - indexed file. indexed 100 files total ecc..."
+                    "log": enables logging like inside logs.txt: "user tux launched mindexer at 22:30 july 17 and 17 files were indexed ecc..."
 
-current version: 0.2.0 BETA - PRE-RELEASE
+config and logs can be found at /etc/mindexer
+
+to modify config just type the desired flags inside
+
+current version: 0.2.1 BETA - PRE-RELEASE
 
 current stable version: 0.1.1 BETA
 
 for future releases:
     -add support for other wildcards
     -add reverse index feature
+    -add web-based indexing
+    -add config and text options handling
 
 changelog:
 
@@ -43,3 +55,8 @@ changelog:
     -now supports direct variable modification on top of the "main" thread (unstable)
     -started developing indexer algorithm
     -mindexer is now completely independent
+
+0.2.1 BETA - PRE-RELEASE:
+    -added a config system with a very simple parser
+    -all global variables are now on the top for an easy access
+    -started projecting logging and text options
